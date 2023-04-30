@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.rodnansol</groupId>
+        <artifactId>cli-app</artifactId>
+        <version>999-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>cli-app-cli</artifactId>
+    <name>CLI APP - CLI</name>
+    <description>CLI APP</description>
+    <url>https://github.com/rodnansol/cli-app</url>
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <organization>
+        <name>Rodnan Sol.</name>
+        <url>https://www.rodnansol.org/</url>
+    </organization>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.rodnansol</groupId>
+            <artifactId>cli-app-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-picocli</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-junit5</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <profiles>
+        <profile>
+            <id>uber-jar</id>
+            <properties>
+                <quarkus.package.type>uber-jar</quarkus.package.type>
+            </properties>
+        </profile>
+        <profile>
+            <id>upload-docker-image</id>
+            <properties>
+                <quarkus.container-image.push>true</quarkus.container-image.push>
+            </properties>
+        </profile>
+        <profile>
+            <id>jvm-docker</id>
+            <properties>
+                <quarkus.container-image.build>true</quarkus.container-image.build>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>io.quarkus</groupId>
+                    <artifactId>quarkus-container-image-jib</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>native-docker</id>
+            <properties>
+                <quarkus.container-image.build>true</quarkus.container-image.build>
+                <quarkus.native.container-build>true</quarkus.native.container-build>
+                <quarkus.native.reuse-existing>true</quarkus.native.reuse-existing>
+                <quarkus.container-image.tag>${project.version}-native</quarkus.container-image.tag>
+                <quarkus.container-image.push>true</quarkus.container-image.push>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>io.quarkus</groupId>
+                    <artifactId>quarkus-container-image-jib</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>io.smallrye</groupId>
+                <artifactId>jandex-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>${quarkus.platform.group-id}</groupId>
+                <artifactId>quarkus-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+
+</project>

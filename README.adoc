@@ -1,0 +1,59 @@
+= CLI APP
+ifndef::env-github[]
+:icons: font
+endif::[]
+ifdef::env-github[]
+:caution-caption: :fire:
+:important-caption: :exclamation:
+:note-caption: :paperclip:
+:tip-caption: :bulb:
+:warning-caption: :warning:
+endif::[]
+:toc:
+:toc-placement!:
+:toclevels: 4
+
+[.text-center]
+image:https://img.shields.io/maven-central/v/org.rodnansol/CLI APP.svg[Maven Central]
+image:https://img.shields.io/badge/License-Apache_2.0-blue.svg[Apache 2.0]
+image:https://img.shields.io/twitter/url/https/twitter.com/rodnansol.svg?style=social&label=Follow%20%40RodnanSol[]
+image:https://dcbadge.vercel.app/api/server/USyh6XUjvP[Discord]
+
+toc::[]
+
+== Goals
+
+=== Introduction
+
+=== Project
+
+== Usage
+
+== Contribution
+
+=== Fork
+
+Please fork the project if you would like to contribute.
+
+=== How to build the project?
+
+The project requires at least *GraalVM 22.3* / *Java 17*, if SDKMan is installed on your machine `sdk e` command could be used in the terminal to set up the required Java version.
+
+- To build the project just run: `mvn package`
+
+=== Code formatter
+
+The project contains a `.editorconfig` file, and it should be utilized as well.
+
+During build time Checkstyle checks the conventions.
+
+=== Commit messages
+
+The commit messages are based on the **conventional-commits**, please apply those rules.
+
+Learn more link:https://www.conventionalcommits.org[here].
+
+== Contributors
+
+Check the list of contributors https://github.com/rodnansol/cli-app/tree/master/CONTRIBUTORS.md[here].
+

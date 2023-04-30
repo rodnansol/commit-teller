@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+export JAVA_HOME=~/.sdkman/candidates/java/22.3.r17-grl
+java -version
+echo "Verifying project before committing"
+./mvnw clean verify

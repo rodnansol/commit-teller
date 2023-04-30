@@ -1,0 +1,5 @@
+name: cli-app
+title: CLI app
+version: latest
+nav:
+  - modules/ROOT/nav.adoc
