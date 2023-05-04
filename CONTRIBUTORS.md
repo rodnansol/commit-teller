@@ -12,7 +12,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tbody>
     <tr>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/nandorholozsnyak"><img src="https://avatars.githubusercontent.com/u/11406183?v=4?s=100" width="100px;" alt="Nándor Holozsnyák"/><br /><sub><b>Nándor Holozsnyák</b></sub></a><br /><a href="#maintenance-nandorholozsnyak" title="Maintenance">🚧</a> <a href="https://github.com/rodnansol/cli-app/commits?author=nandorholozsnyak" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/nandorholozsnyak"><img src="https://avatars.githubusercontent.com/u/11406183?v=4?s=100" width="100px;" alt="Nándor Holozsnyák"/><br /><sub><b>Nándor Holozsnyák</b></sub></a><br /><a href="#maintenance-nandorholozsnyak" title="Maintenance">🚧</a> <a href="https://github.com/rodnansol/commit-teller/commits?author=nandorholozsnyak" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>

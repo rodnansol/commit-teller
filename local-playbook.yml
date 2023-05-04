@@ -1,7 +1,7 @@
 site:
   title: Rodnan Sol
   url: http://rodnansol.org
-  start_page: cli-app::index.adoc
+  start_page: commit-teller::index.adoc
 content:
   sources:
     - url: ./

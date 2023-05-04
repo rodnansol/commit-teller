@@ -5,12 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.rodnansol</groupId>
-    <artifactId>cli-app</artifactId>
+    <artifactId>commit-teller</artifactId>
     <version>999-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
-        <module>cli-app-core</module>
-        <module>cli-app-cli</module>
+        <module>commit-teller-core</module>
+        <module>commit-teller-cli</module>
     </modules>
 
     <properties>
@@ -22,7 +22,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
         <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
-        <quarkus.platform.version>3.0.1.Final</quarkus.platform.version>
+        <quarkus.platform.version>3.0.2.Final</quarkus.platform.version>
         <project.copyright>Apache-2.0</project.copyright>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven-jar-plugin.version>3.2.2</maven-jar-plugin.version>
@@ -55,11 +55,15 @@
         <jreleaser-github-release.draft>false</jreleaser-github-release.draft>
         <jreleaser-nexus-deploy.active>ALWAYS</jreleaser-nexus-deploy.active>
         <jandex-maven-plugin.version>3.0.5</jandex-maven-plugin.version>
+        <github-api.version>1.314</github-api.version>
+        <openai.version>0.12.0</openai.version>
+        <jcabi-github.version>1.6.4</jcabi-github.version>
+        <javax.json-api.version>1.1.4</javax.json-api.version>
     </properties>
 
-    <name>CLI APP</name>
-    <description>CLI APP</description>
-    <url>https://github.com/rodnansol/cli-app</url>
+    <name>Commit Teller</name>
+    <description>Commit Teller parent module</description>
+    <url>https://github.com/rodnansol/commit-teller</url>
     <inceptionYear>2023</inceptionYear>
     <developers>
         <developer>
@@ -82,7 +86,7 @@
     <scm>
         <connection>scm:git:git@${project.scm.url}</connection>
         <developerConnection>scm:git:${project.scm.url}</developerConnection>
-        <url>git@github.com:rodnansol/cli-app.git</url>
+        <url>git@github.com:rodnansol/commit-teller.git</url>
         <tag>HEAD</tag>
     </scm>
 
@@ -104,13 +108,43 @@
             </dependency>
             <dependency>
                 <groupId>org.rodnansol</groupId>
-                <artifactId>cli-app-core</artifactId>
+                <artifactId>commit-teller-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.rodnansol</groupId>
-                <artifactId>cli-app-cli</artifactId>
+                <artifactId>commit-teller-cli</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.kohsuke</groupId>
+                <artifactId>github-api</artifactId>
+                <version>${github-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.theokanning.openai-gpt3-java</groupId>
+                <artifactId>api</artifactId>
+                <version>${openai.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.theokanning.openai-gpt3-java</groupId>
+                <artifactId>client</artifactId>
+                <version>${openai.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.theokanning.openai-gpt3-java</groupId>
+                <artifactId>service</artifactId>
+                <version>${openai.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jcabi</groupId>
+                <artifactId>jcabi-github</artifactId>
+                <version>${jcabi-github.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.json</groupId>
+                <artifactId>javax.json-api</artifactId>
+                <version>${javax.json-api.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.github.jknack</groupId>
@@ -380,7 +414,7 @@
                                         <active>ALWAYS</active>
                                         <connectTimeout>20</connectTimeout>
                                         <readTimeout>60</readTimeout>
-                                        <status>🚀 CLI App {{projectVersion}} has been released! {{releaseNotesUrl}} ${release.tags}</status>
+                                        <status>🚀 Commit Teller {{projectVersion}} has been released! {{releaseNotesUrl}} ${release.tags}</status>
                                     </twitter>
                                 </announce>
                                 <release>
@@ -425,7 +459,7 @@
                                         <stereotype>CLI</stereotype>
                                         <artifacts>
                                             <artifact>
-                                                <path>cli-app-cli/target/cli-app-cli-${project.version}.jar</path>
+                                                <path>commit-teller-cli/target/commit-teller-cli-${project.version}.jar</path>
                                             </artifact>
                                         </artifacts>
                                         <tags>

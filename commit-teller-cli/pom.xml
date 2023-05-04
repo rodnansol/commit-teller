@@ -5,14 +5,14 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.rodnansol</groupId>
-        <artifactId>cli-app</artifactId>
+        <artifactId>commit-teller</artifactId>
         <version>999-SNAPSHOT</version>
     </parent>
 
-    <artifactId>cli-app-cli</artifactId>
-    <name>CLI APP - CLI</name>
-    <description>CLI APP</description>
-    <url>https://github.com/rodnansol/cli-app</url>
+    <artifactId>commit-teller-cli</artifactId>
+    <name>Commit Teller - CLI</name>
+    <description>CLI module of the Commit Teller</description>
+    <url>https://github.com/rodnansol/commit-teller</url>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
@@ -27,7 +27,7 @@
     <dependencies>
         <dependency>
             <groupId>org.rodnansol</groupId>
-            <artifactId>cli-app-core</artifactId>
+            <artifactId>commit-teller-core</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

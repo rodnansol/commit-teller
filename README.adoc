@@ -1,4 +1,4 @@
-= CLI APP
+= Commit Teller
 ifndef::env-github[]
 :icons: font
 endif::[]
@@ -14,7 +14,7 @@ endif::[]
 :toclevels: 4
 
 [.text-center]
-image:https://img.shields.io/maven-central/v/org.rodnansol/CLI APP.svg[Maven Central]
+image:https://img.shields.io/maven-central/v/org.rodnansol/commit-teller.svg[Maven Central]
 image:https://img.shields.io/badge/License-Apache_2.0-blue.svg[Apache 2.0]
 image:https://img.shields.io/twitter/url/https/twitter.com/rodnansol.svg?style=social&label=Follow%20%40RodnanSol[]
 image:https://dcbadge.vercel.app/api/server/USyh6XUjvP[Discord]
@@ -55,5 +55,5 @@ Learn more link:https://www.conventionalcommits.org[here].
 
 == Contributors
 
-Check the list of contributors https://github.com/rodnansol/cli-app/tree/master/CONTRIBUTORS.md[here].
+Check the list of contributors https://github.com/rodnansol/commit-teller/tree/master/CONTRIBUTORS.md[here].
 

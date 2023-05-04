@@ -12,7 +12,7 @@ import picocli.CommandLine;
     versionProvider = VersionProvider.class,
     description = "Entry command. Please check the instructions.",
     mixinStandardHelpOptions = true,
-    subcommands = {SimpleCommand.class})
+    subcommands = {CreateStoryCommand.class})
 public class EntryCommand {
 
 }

@@ -5,14 +5,14 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.rodnansol</groupId>
-        <artifactId>cli-app</artifactId>
+        <artifactId>commit-teller</artifactId>
         <version>999-SNAPSHOT</version>
     </parent>
 
-    <artifactId>cli-app-core</artifactId>
-    <name>CLI APP - Core</name>
-    <description>cli-app</description>
-    <url>https://github.com/rodnansol/cli-app</url>
+    <artifactId>commit-teller-core</artifactId>
+    <name>Commit Teller - Core</name>
+    <description>Core module of the Commit Teller</description>
+    <url>https://github.com/rodnansol/commit-teller</url>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
@@ -38,8 +38,20 @@
             <artifactId>quarkus-arc</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.jknack</groupId>
-            <artifactId>handlebars</artifactId>
+            <groupId>com.theokanning.openai-gpt3-java</groupId>
+            <artifactId>api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.theokanning.openai-gpt3-java</groupId>
+            <artifactId>client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.theokanning.openai-gpt3-java</groupId>
+            <artifactId>service</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.jcabi</groupId>
+            <artifactId>jcabi-github</artifactId>
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
@@ -60,6 +72,11 @@
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.json</groupId>
+            <artifactId>javax.json-api</artifactId>
+            <version>1.1.4</version>
         </dependency>
     </dependencies>
 
