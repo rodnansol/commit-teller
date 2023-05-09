@@ -6,6 +6,10 @@ package org.rodnansol.committeller.core.action;
  * @since 0.1.0
  */
 public record GenerateStoryCommand(
-    int issueNumber) {
+    String owner,
+    String repository,
+    int issueNumber,
+    CommentOptions commentOptions,
+    FileOptions fileOptions) {
 
 }

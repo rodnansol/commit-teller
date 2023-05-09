@@ -15,4 +15,11 @@ public interface StoryProperties {
      * @since 0.1.0
      */
     String template();
+
+    /**
+     * Returns the characteristics of the story.
+     *
+     * @since 0.1.0
+     */
+    String characteristics();
 }

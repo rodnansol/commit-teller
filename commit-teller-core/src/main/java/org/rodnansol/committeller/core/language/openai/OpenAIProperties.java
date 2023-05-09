@@ -3,9 +3,9 @@ package org.rodnansol.committeller.core.language.openai;
 import io.smallrye.config.ConfigMapping;
 import io.smallrye.config.WithDefault;
 
-import java.time.Duration;
-
 /**
+ * Interface grouping together the OpenAPI related configuration keys.
+ *
  * @author nandorholozsnyak
  * @since 0.1.0
  */
@@ -41,16 +41,5 @@ interface OpenAIProperties {
      */
     @WithDefault("1024")
     int maxToken();
-
-    /**
-     * Returns the client timeout.
-     * <p>
-     * By default, it is 30 seconds.
-     *
-     * @since 0.1.0
-     */
-    default Duration clientTimeout() {
-        return Duration.ofSeconds(30);
-    }
 
 }
