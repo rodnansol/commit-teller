@@ -3,6 +3,8 @@ package org.rodnansol.committeller.core.language.openai;
 import io.smallrye.config.ConfigMapping;
 import io.smallrye.config.WithDefault;
 
+import java.util.Optional;
+
 /**
  * Interface grouping together the OpenAPI related configuration keys.
  *
@@ -17,7 +19,7 @@ interface OpenAIProperties {
      *
      * @since 0.1.0
      */
-    String apiKey();
+    Optional<String> apiKey();
 
     /**
      * Returns the model to be used.

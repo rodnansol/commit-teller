@@ -2,6 +2,8 @@ package org.rodnansol.committeller.core.github;
 
 import io.smallrye.config.ConfigMapping;
 
+import java.util.Optional;
+
 /**
  * Interface grouping together the OpenAPI related configuration keys.
  *
@@ -9,12 +11,12 @@ import io.smallrye.config.ConfigMapping;
  * @since 0.1.0
  */
 @ConfigMapping(prefix = "commit-teller.github")
-public interface GitHubProperties {
+interface GitHubProperties {
 
     /**
      * Returns the GitHub token.
      *
      */
-    String token();
+    Optional<String> token();
 
 }

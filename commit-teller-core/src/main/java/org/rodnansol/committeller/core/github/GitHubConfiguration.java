@@ -20,7 +20,7 @@ class GitHubConfiguration {
     @Produces
     @ApplicationScoped
     public GitHub github(GitHubProperties gitHubProperties) throws IOException {
-        return new GitHubBuilder().withOAuthToken(gitHubProperties.token())
+        return new GitHubBuilder().withOAuthToken(gitHubProperties.token().orElse(null))
             .build();
     }
 

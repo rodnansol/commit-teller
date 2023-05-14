@@ -1,9 +1,11 @@
 package org.rodnansol.committeller.core.action;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import org.rodnansol.committeller.core.github.GitHubPropertyValidator;
 import org.rodnansol.committeller.core.github.GitHubService;
 import org.rodnansol.committeller.core.github.PullRequestSummary;
 import org.rodnansol.committeller.core.language.LanguageProcessor;
+import org.rodnansol.committeller.core.language.LanguageProcessorPropertyValidator;
 import org.rodnansol.committeller.core.language.ProcessPromptCommand;
 import org.rodnansol.committeller.core.language.ProcessResult;
 import org.slf4j.Logger;
@@ -25,15 +27,21 @@ public class GenerateStoryAction {
     private final LanguageProcessor languageProcessor;
     private final DocumentationWriter documentationWriter;
     private final StoryProperties storyProperties;
+    private final GitHubPropertyValidator gitHubPropertyValidator;
+    private final LanguageProcessorPropertyValidator languageProcessorPropertyValidator;
 
     public GenerateStoryAction(GitHubService gitHubService,
                                LanguageProcessor languageProcessor,
                                DocumentationWriter documentationWriter,
-                               StoryProperties storyProperties) {
+                               StoryProperties storyProperties,
+                               GitHubPropertyValidator gitHubPropertyValidator,
+                               LanguageProcessorPropertyValidator languageProcessorPropertyValidator) {
         this.gitHubService = gitHubService;
         this.languageProcessor = languageProcessor;
         this.documentationWriter = documentationWriter;
         this.storyProperties = storyProperties;
+        this.gitHubPropertyValidator = gitHubPropertyValidator;
+        this.languageProcessorPropertyValidator = languageProcessorPropertyValidator;
     }
 
     /**
@@ -42,12 +50,18 @@ public class GenerateStoryAction {
      * A file will be created if the command states that it must be created.
      */
     public void generateStory(GenerateStoryCommand command) {
+        validateProperties();
         LOGGER.info("Creating story based on command:[{}]", command);
         Objects.requireNonNull(command, "command is NULL");
         PullRequestSummary pullRequestSummary = gitHubService.getCommitsByPullRequestNumber(command.owner(), command.repository(), command.issueNumber());
         ProcessResult processResult = generateStoryWithLanguageProcessor(command, pullRequestSummary);
         postAsComment(command, processResult);
         writeToFile(command, pullRequestSummary, processResult);
+    }
+
+    private void validateProperties() {
+        gitHubPropertyValidator.validateProperties();
+        languageProcessorPropertyValidator.validateProperties();
     }
 
     private void writeToFile(GenerateStoryCommand command, PullRequestSummary pullRequestSummary, ProcessResult processResult) {

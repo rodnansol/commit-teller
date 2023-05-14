@@ -5,6 +5,8 @@ import org.rodnansol.committeller.core.action.CommentOptions;
 import org.rodnansol.committeller.core.action.FileOptions;
 import org.rodnansol.committeller.core.action.GenerateStoryAction;
 import org.rodnansol.committeller.core.action.GenerateStoryCommand;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import picocli.CommandLine;
 
 /**
@@ -18,6 +20,8 @@ import picocli.CommandLine;
         Creates a story for a given issue/pull request and posts it as a comment.
         """)
 class CreateStoryCommand implements Runnable {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CreateStoryCommand.class);
 
     private final GenerateStoryAction generateStoryAction;
 
@@ -101,7 +105,11 @@ class CreateStoryCommand implements Runnable {
     public void run() {
         CommentOptions commentOptions = new CommentOptions(postAsComment);
         FileOptions fileOptions = new FileOptions(saveAsFile, fileExtension);
-        generateStoryAction.generateStory(new GenerateStoryCommand(owner, repository, pullRequestNumber, includeCommitAuthorNames, commentOptions, fileOptions));
+        try {
+            generateStoryAction.generateStory(new GenerateStoryCommand(owner, repository, pullRequestNumber, includeCommitAuthorNames, commentOptions, fileOptions));
+        } catch (Exception e) {
+            LOGGER.error("\u001B[31m[ERROR]: {}", e.getMessage());
+        }
     }
 }
 

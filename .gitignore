@@ -1,4 +1,4 @@
-commit-teller-cli/.env
+.env
 out/
 target/
 !.mvn/wrapper/maven-wrapper.jar
