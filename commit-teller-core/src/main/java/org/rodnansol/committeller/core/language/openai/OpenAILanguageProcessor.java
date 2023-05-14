@@ -11,8 +11,14 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
+/**
+ * {@link LanguageProcessor} implementation that interacts with the OpenAI's API.
+ *
+ * @author nandorholozsnyak
+ * @since 0.1.0
+ */
 @ApplicationScoped
-public class OpenAILanguageProcessor implements LanguageProcessor {
+class OpenAILanguageProcessor implements LanguageProcessor {
     private static final Logger LOGGER = LoggerFactory.getLogger(OpenAILanguageProcessor.class);
     private final OpenAIProperties openAIProperties;
     private final OpenAIClient openAIClient;

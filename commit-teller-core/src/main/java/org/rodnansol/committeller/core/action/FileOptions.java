@@ -1,8 +1,10 @@
 package org.rodnansol.committeller.core.action;
 
 /**
- * @param saveAsFile
- * @param extension
+ * Class describing the options for the file saving mechanism.
+ *
+ * @param saveAsFile sets if a file must be created.
+ * @param extension  extension of the file.
  * @author nandorholozsnyak
  * @since 0.1.0
  */

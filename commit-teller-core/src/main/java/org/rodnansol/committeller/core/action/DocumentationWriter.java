@@ -10,6 +10,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 /**
+ * Class dealing with the documentation creation.
+ *
  * @author nandorholozsnyak
  * @since 0.1.0
  */

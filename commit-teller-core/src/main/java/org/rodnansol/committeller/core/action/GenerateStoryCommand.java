@@ -9,6 +9,7 @@ public record GenerateStoryCommand(
     String owner,
     String repository,
     int issueNumber,
+    boolean includeCommitAuthorNames,
     CommentOptions commentOptions,
     FileOptions fileOptions) {
 

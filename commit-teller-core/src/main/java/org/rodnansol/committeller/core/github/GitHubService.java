@@ -44,11 +44,6 @@ public class GitHubService {
         }
     }
 
-    private List<GitCommit> extractCommitsFromPullRequest(GHPullRequest pullRequest) {
-        return StreamSupport.stream(pullRequest.listCommits().spliterator(), false)
-            .map(this::extractCommit)
-            .toList();
-    }
 
     /**
      * Creates a comment on a given issue.
@@ -65,6 +60,12 @@ public class GitHubService {
         } catch (IOException e) {
             throw new GitHubException("Error during creating a comment for issue:" + issueNumber, e);
         }
+    }
+
+    private List<GitCommit> extractCommitsFromPullRequest(GHPullRequest pullRequest) {
+        return StreamSupport.stream(pullRequest.listCommits().spliterator(), false)
+            .map(this::extractCommit)
+            .toList();
     }
 
     private GHPullRequest getPullRequest(String owner, String repository, int pullRequestNumber) throws IOException {

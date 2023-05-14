@@ -12,6 +12,7 @@ endif::[]
 :toc:
 :toc-placement!:
 :toclevels: 4
+:action-version: 0.1.0
 
 [.text-center]
 image:https://img.shields.io/maven-central/v/org.rodnansol/commit-teller.svg[Maven Central]
@@ -25,9 +26,188 @@ toc::[]
 
 === Introduction
 
+*Commit Teller* is a fun project created for the *GitHub + DEV 2023 Hackathon*.
+
+The hackathon is based around GitHub Actions, GitHub's CI/CD component and the Codespaces. In the announcement organizers listed multiple categories, and this one fits in the Wacky Wildcards (Build a random app that doesn’t fit into one of the categories above.).
+
+The announcement can be found https://dev.to/devteam/announcing-the-github-dev-2023-hackathon-4ocn[here].
+
 === Project
 
+What is the purpose of this project? What can we do with it?
+
+With the dawn of the AI techs, this little tool will help you make your pull requests have some sort of backstory, based on the commits they are containing.
+
+Most pieces of software are not really having documentations, and this tool is not a replacement of documentations, but a fun way to tell the story of the project/software/application via the pull request history and its commits.
+
+With the attached GitHub action you are able to hook it into your pull request lifecycles and at merge time, the action will kick in and will tell you the story of the pull request. You name the mood of the story, it can be funny, kind, strict, documentation like, anything you choose.
+
 == Usage
+
+=== GitHub Actions
+
+[source,yaml,subs="+attributes"]
+----
+name: Create story about Pull Request
+on:
+  pull_request:
+    types:
+      - closed # <.>
+
+jobs:
+  create-story-for-pull-request:
+    runs-on: ubuntu-latest
+    name: Create story for pull request at merge
+    if: github.event.pull_request.merged == true # <.>
+    steps:
+      - uses: actions/checkout@v3
+      - uses: rodnansol/commit-teller-action@v{action-version} # <.>
+        name: Create story
+        with:
+          version: early-access # <.>
+          arguments: create-story -pr ${ISSUE_NUMBER} --owner ${GITHUB_REPOSITORY%/*} --repository ${GITHUB_REPOSITORY#*/} --file-extension ADOC -saf=true # <.>
+        env: # <.>
+          ISSUE_NUMBER: ${{ github.event.issue.number }} # <.>
+          COMMIT_TELLER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # <.>
+          COMMIT_TELLER_OPENAI_API_KEY: ${{ secrets.OPENAI_KEY }} # <.>
+      - name: Commit story changes # <.>
+        shell: bash
+        env:
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          git add *.adoc
+          git config --global user.email "${{ secrets.COMMITTER_EMAIL }}"
+          git config --global user.name "${{ secrets.COMMITTER_NAME }}"
+          git commit -m "Creating story about pull request ${ISSUE_NUMBER}"
+          git push origin main
+
+----
+<.> Specify the event when the action must be executed, for example when the pull request gets closed (The close event can mean closed manually on the website, or by merging the pull request)
+<.> Specify if the action steps must be executed if the code changes are getting merged and not just the pull request is being closed by hand.
+<.> Add the `rodnansol/commit-teller-action@v{action-version}` to your action. Check the latest version before doing so https://github.com/rodnansol/commit-teller-action/releases[here].
+<.> *Optional* - Specify the version of the CLI tool you want to use.
+<.> Specify the command with the flags. Check the available flags <<java-jar,here>>.
+<.> Check the customization options <<customizations,here>>.
+<.> GitHub action is providing the contextual data which contains the number of the issue/pull request. In the pull request context the issue word is interchangeable.
+<.> Specify the GitHub token. GitHub Action will always provide one when running the action, but it must be injected into the action.
+<.> Specify the OpenAI's API key. Get one after registration here: https://platform.openai.com/account/api-keys
+<.> *Optional* - If you want to collect the stories inside your repository do not forget to commit them. Check the available templates <<file-templates,here>>.
+
+More information about the action can be found https://github.com/rodnansol/commit-teller-action[here].
+
+[#java-jar]
+=== Java JAR
+
+Download the latest uber-jar/fatjar and run it with *Java 17*(!) from here: https://github.com/rodnansol/commit-teller/releases
+
+The tool requires the following environment variables that can be put next to the jar file into an `.env` file
+
+..env
+[source,dotenv]
+----
+COMMIT_TELLER_GITHUB_TOKEN=<github-token> #<.>
+COMMIT_TELLER_OPENAI_API_KEY=<openai-token> #<.>
+----
+<.> Create a GitHub token here: https://github.com/settings/tokens
+<.> Create an OpenAI token here: https://platform.openai.com/account/api-keys
+
+For more customization option check the <<customizations,following>> section.
+
+[source,bash]
+----
+$ java -jar commit-teller-cli.jar create-story
+Missing required options: '--owner=<owner>', '--repository=<repository>', '-pr=<pullRequestNumber>'
+Usage: <main class> create-story [-ican] [-pac] [-saf] [-fe=<fileExtension>]
+                                 -o=<owner> -pr=<pullRequestNumber>
+                                 -r=<repository>
+Creates a story for a given issue/pull request and posts it as a comment.
+
+      -fe, --file-extension=<fileExtension>
+                        Extension of the file.
+                        Supported formats: MD for Markdown, ADOC for AsciiDoc.
+                        Default is Markdown
+
+      -ican, --include-commit-author-names
+                        If the commit author names should be included in the
+                          prompt for the language processor based text
+                          generation.
+
+  -o, --owner=<owner>   Owner GitHub identifier.
+                        It can be a standalone user or an organization.
+
+      -pac              Post as comment the result.
+      -pr=<pullRequestNumber>
+                        Number of the pull request that should be analyzed and
+                          commented.
+  -r, --repository=<repository>
+                        Name of the repository owned by the owner option.
+      -saf              Save as file. The
+
+----
+
+
+[#customizations]
+== CLI Customizations
+
+The CLI tool can be customized via environment variables.
+
+Check the available ones:
+
+.Customization options via a .env file next to the jar file
+[source,dotenv]
+----
+COMMIT_TELLER_GITHUB_TOKEN=<github-token> #<.>
+COMMIT_TELLER_OPENAI_API_KEY=<openai-token> #<.>
+
+COMMIT_TELLER_OPENAI_MODEL=text-davinci-003 #<.>
+COMMIT_TELLER_OPENAI_TEMPERATURE=0.3 #<.>
+COMMIT_TELLER_OPENAI_MAX_TOKEN=512 #<.>
+
+COMMIT_TELLER_STORY_TEMPLATE='Write me a story about the following commits. \n #<.>
+  The story can be only 512 characters long. \n
+  The story should be based on the commit messages, and it should have the following characteristics:'
+COMMIT_TELLER_STORY_CHARACTERISTICS='documentation like, funny' #<.>
+----
+<.> Create a GitHub token here: https://github.com/settings/tokens
+<.> Create an OpenAI token here: https://platform.openai.com/account/api-keys
+<.> OpenAI's models: https://platform.openai.com/docs/models/model-endpoint-compatibility
+<.> Temperature value. More about it here: https://platform.openai.com/docs/api-reference/completions/create#completions/create-temperature
+<.> Number of the maximum tokens for the completion response.
+<.> The message to be passed to the language processor. It will include the commit messages as a list.
+<.> Define the characteristics of the story.
+
+NOTE: The default values are used in the above code section. If you want to override them please use the mentioned keys. These can be overwritten in the GitHub action as well. Check the documentations https://docs.github.com/en/actions/learn-github-actions/variables#using-the-env-context-to-access-environment-variable-values[here].
+
+[#file-templates]
+== File templates
+
+The created stories can be saved into a file in two different formats:
+
+- Markdown - _Default_
+- AsciiDoc
+
+The file name format is the following: #<pull-request-number> - <pull-request-title>.<extension>
+
+For example, if you have a pull request with the number of 35 and title "feat(core): GitHub and OpenAI integration" the file name will be: *#1 - feat(core): GitHub and OpenAI integration.md*
+
+The templates are simple:
+
+.Markdown
+[source,markdown]
+----
+## <Pull request title>
+<Generated story>
+----
+
+.AsciiDoc
+[source,asciidoc]
+----
+== <Pull request title>
+<Generated story>
+----
+
+[NOTE]
+At the moment they are not editable/customizable.
 
 == Contribution
 
@@ -39,7 +219,7 @@ Please fork the project if you would like to contribute.
 
 The project requires at least *GraalVM 22.3* / *Java 17*, if SDKMan is installed on your machine `sdk e` command could be used in the terminal to set up the required Java version.
 
-- To build the project just run: `mvn package`
+- To build the project just run: `mvn package -Puber-jar`
 
 === Code formatter
 

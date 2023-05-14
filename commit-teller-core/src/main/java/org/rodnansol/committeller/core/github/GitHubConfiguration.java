@@ -8,8 +8,14 @@ import org.kohsuke.github.GitHubBuilder;
 
 import java.io.IOException;
 
+/**
+ * Configuration class for the GitHub dependency.
+ *
+ * @author nandorholozsnyak
+ * @since 0.1.0
+ */
 @ApplicationScoped
-public class GitHubConfiguration {
+class GitHubConfiguration {
 
     @Produces
     @ApplicationScoped

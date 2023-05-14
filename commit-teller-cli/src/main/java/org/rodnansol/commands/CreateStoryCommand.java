@@ -12,34 +12,86 @@ import picocli.CommandLine;
  * @since 0.1.0
  */
 @Dependent
-@CommandLine.Command(versionProvider = VersionProvider.class, name = "create-story", description = """
-    Creates a story for a given issue/pull request and posts it as a comment.
-    """)
-public class CreateStoryCommand implements Runnable {
+@CommandLine.Command(versionProvider = VersionProvider.class,
+    name = "create-story",
+    description = """
+        Creates a story for a given issue/pull request and posts it as a comment.
+        """)
+class CreateStoryCommand implements Runnable {
 
     private final GenerateStoryAction generateStoryAction;
 
-    @CommandLine.Option(names = {"-o", "--owner"}, description = "Owner GitHub identifier.")
-    private String owner;
+    /**
+     * Repository owner's username.
+     * <p>
+     * It can definitely be an organization name too.
+     *
+     * @since 0.1.0
+     */
+    @CommandLine.Option(names = {"-o", "--owner"},
+        description = """
+            Owner GitHub identifier.
+            It can be a standalone user or an organization.
+            """, required = true)
+    String owner;
 
-    @CommandLine.Option(names = {"-r", "--repository"}, description = "Name of the repository owned by the owner option.")
-    private String repository;
+    /**
+     * Identifier of the repository.
+     *
+     * @since 0.1.0
+     */
+    @CommandLine.Option(names = {"-r", "--repository"}, description = "Name of the repository owned by the owner option.", required = true)
+    String repository;
 
-    @CommandLine.Option(names = "-pr", description = "Number of the pull request that should be analyzed and commented.")
-    private int pullRequestNumber;
+    /**
+     * Pull request number.
+     *
+     * @since 0.1.0
+     */
+    @CommandLine.Option(names = "-pr", description = "Number of the pull request that should be analyzed and commented.", required = true)
+    int pullRequestNumber;
 
+    /**
+     * If the created story should be posted as a comment to the associated pull request.
+     * <p>
+     * Enabled by default.
+     *
+     * @since 0.1.0
+     */
     @CommandLine.Option(names = "-pac", description = "Post as comment the result.")
-    private boolean postAsComment = true;
+    boolean postAsComment = true;
 
+    /**
+     * If the created story should be saved to a file as well.
+     *
+     * @since 0.1.0
+     */
     @CommandLine.Option(names = "-saf", description = "Save as file. The ")
-    private boolean saveAsFile = false;
+    boolean saveAsFile = false;
 
+    /**
+     * File extension.
+     * <p>
+     * It can be Markdown or AsciiDoc. The templates are really simple for them.
+     *
+     * @since 0.1.0
+     */
     @CommandLine.Option(names = {"-fe", "--file-extension"}, description = """
         Extension of the file.
         Supported formats: MD for Markdown, ADOC for AsciiDoc.
         Default is Markdown
         """)
-    private FileOptions.FileExtension fileExtension = FileOptions.FileExtension.MD;
+    FileOptions.FileExtension fileExtension = FileOptions.FileExtension.MD;
+
+    /**
+     * If the created story should be saved to a file as well.
+     *
+     * @since 0.1.0
+     */
+    @CommandLine.Option(names = {"-ican", "--include-commit-author-names"}, description = """
+        If the commit author names should be included in the prompt for the language processor based text generation.
+         """)
+    boolean includeCommitAuthorNames = false;
 
     public CreateStoryCommand(GenerateStoryAction generateStoryAction) {
         this.generateStoryAction = generateStoryAction;
@@ -49,7 +101,7 @@ public class CreateStoryCommand implements Runnable {
     public void run() {
         CommentOptions commentOptions = new CommentOptions(postAsComment);
         FileOptions fileOptions = new FileOptions(saveAsFile, fileExtension);
-        generateStoryAction.generateStory(new GenerateStoryCommand(owner, repository, pullRequestNumber, commentOptions, fileOptions));
+        generateStoryAction.generateStory(new GenerateStoryCommand(owner, repository, pullRequestNumber, includeCommitAuthorNames, commentOptions, fileOptions));
     }
 }
 

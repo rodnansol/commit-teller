@@ -13,6 +13,8 @@ import java.util.Objects;
 
 
 /**
+ * Action class dealing with the story generation.
+ *
  * @author nandorholozsnyak
  * @since 0.1.0
  */
@@ -35,13 +37,15 @@ public class GenerateStoryAction {
     }
 
     /**
-     * Generates the story for the given pull request and posts it as a comment.
+     * Generates the story for the given pull request and posts it as a comment if needed.
+     * <p>
+     * A file will be created if the command states that it must be created.
      */
     public void generateStory(GenerateStoryCommand command) {
         LOGGER.info("Creating story based on command:[{}]", command);
         Objects.requireNonNull(command, "command is NULL");
         PullRequestSummary pullRequestSummary = gitHubService.getCommitsByPullRequestNumber(command.owner(), command.repository(), command.issueNumber());
-        ProcessResult processResult = generateStory(pullRequestSummary);
+        ProcessResult processResult = generateStoryWithLanguageProcessor(command, pullRequestSummary);
         postAsComment(command, processResult);
         writeToFile(command, pullRequestSummary, processResult);
     }
@@ -67,14 +71,16 @@ public class GenerateStoryAction {
         }
     }
 
-    private ProcessResult generateStory(PullRequestSummary pullRequestSummary) {
+    private ProcessResult generateStoryWithLanguageProcessor(GenerateStoryCommand command, PullRequestSummary pullRequestSummary) {
         StringBuilder basePrompt = new StringBuilder(storyProperties.template())
             .append(storyProperties.characteristics())
             .append("\n")
             .append("Commits:\n");
         pullRequestSummary.commits()
             .forEach(commit -> {
-                basePrompt.append("Author:").append(commit.author()).append("\n");
+                if (command.includeCommitAuthorNames()) {
+                    basePrompt.append("Author:").append(commit.author()).append("\n");
+                }
                 basePrompt.append(commit.message()).append("\n\n");
             });
         return languageProcessor.processPrompt(new ProcessPromptCommand(basePrompt.toString()));
