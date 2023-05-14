@@ -12,8 +12,9 @@ import picocli.CommandLine;
     versionProvider = VersionProvider.class,
     description = "Entry command. Please check the instructions.",
     mixinStandardHelpOptions = true,
-    subcommands = {SimpleCommand.class})
-public class EntryCommand {
+    subcommands = {CreateStoryCommand.class})
+@SuppressWarnings("unused")
+class EntryCommand {
 
 }
 

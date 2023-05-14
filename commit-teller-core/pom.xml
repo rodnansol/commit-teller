@@ -5,14 +5,14 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.rodnansol</groupId>
-        <artifactId>cli-app</artifactId>
+        <artifactId>commit-teller</artifactId>
         <version>999-SNAPSHOT</version>
     </parent>
 
-    <artifactId>cli-app-core</artifactId>
-    <name>CLI APP - Core</name>
-    <description>cli-app</description>
-    <url>https://github.com/rodnansol/cli-app</url>
+    <artifactId>commit-teller-core</artifactId>
+    <name>Commit Teller - Core</name>
+    <description>Core module of the Commit Teller</description>
+    <url>https://github.com/rodnansol/commit-teller</url>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
@@ -38,8 +38,13 @@
             <artifactId>quarkus-arc</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.jknack</groupId>
-            <artifactId>handlebars</artifactId>
+            <groupId>io.quarkiverse.githubapi</groupId>
+            <artifactId>quarkus-github-api</artifactId>
+            <version>1.301.3</version>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-rest-client-reactive-jackson</artifactId>
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>

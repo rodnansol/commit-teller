@@ -21,11 +21,11 @@ build-samples: build
   cd samples && mvn clean install
 
 cleanup:
-  rm -rf ~/.m2/repository/org/rodnansol/cli-app-{core,cli}
+  rm -rf ~/.m2/repository/org/rodnansol/commit-teller-{core,cli}
 
 clean-build: cleanup
   ./mvnw clean install
-  ./mvnw package -Puber-jar -f cli-app-cli/pom.xml
+  ./mvnw package -Puber-jar -f commit-teller-cli/pom.xml
 
 # Debug samples
 debug-samples: build

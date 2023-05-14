@@ -1,5 +1,5 @@
-name: cli-app
-title: CLI app
+name: commit-teller
+title: Commit Teller
 version: latest
 nav:
   - modules/ROOT/nav.adoc
