@@ -31,7 +31,7 @@ class OpenAILanguageProcessor implements LanguageProcessor {
     @Override
     public ProcessResult processPrompt(ProcessPromptCommand processPromptCommand) {
         logPromptProperties();
-        CompletionResponse completionResponse = openAIClient.postCompletion(new CompletionRequest(processPromptCommand.prompt(), openAIProperties.model(), openAIProperties.temperature(), openAIProperties.maxToken()), openAIProperties.apiKey());
+        CompletionResponse completionResponse = openAIClient.postCompletion(new CompletionRequest(processPromptCommand.prompt(), openAIProperties.model(), openAIProperties.temperature(), openAIProperties.maxToken()), openAIProperties.apiKey().orElse(null));
 
         List<CompletionResponse.Completion> choices = completionResponse.choices();
         if (choices == null || choices.isEmpty()) {
