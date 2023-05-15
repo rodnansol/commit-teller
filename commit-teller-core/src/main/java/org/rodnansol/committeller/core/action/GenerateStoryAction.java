@@ -79,10 +79,16 @@ public class GenerateStoryAction {
     private void postAsComment(GenerateStoryCommand command, ProcessResult processResult) {
         if (command.commentOptions().postAsComment()) {
             LOGGER.info("Posting result as comment...");
-            gitHubService.createComment(command.owner(), command.repository(), command.issueNumber(), processResult.resultContent());
+            String comment = getFinalComment(processResult);
+            gitHubService.createComment(command.owner(), command.repository(), command.issueNumber(), comment);
         } else {
             LOGGER.info("No comment will be post, did you intentionally disable the comment creation?");
         }
+    }
+
+    private String getFinalComment(ProcessResult processResult) {
+        return processResult.resultContent()
+            .concat("\n <sub>Created by [Commit Teller](https://github.com/rodnansol/commit-teller)</sub>");
     }
 
     private ProcessResult generateStoryWithLanguageProcessor(GenerateStoryCommand command, PullRequestSummary pullRequestSummary) {
